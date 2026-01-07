@@ -6,7 +6,7 @@ A Django-based application that serves a beautiful flower bouquet page with cust
 
 1. **Pull and Run the Container**
    ```bash
-   docker run -p 8000:8000 -e DJANGO_SECRET_KEY='your-secret-key' -e DJANGO_ALLOWED_HOSTS='*' ghcr.io/your-username/flowers:latest
+   docker run -p 8000:8000 -e DJANGO_SECRET_KEY='your-secret-key' -e DJANGO_ALLOWED_HOSTS='*' ghcr.io/arsiba/flowers:latest
    ```
 
 2. **Create Superuser**
