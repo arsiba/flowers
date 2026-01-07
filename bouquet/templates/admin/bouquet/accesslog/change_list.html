@@ -1,0 +1,210 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+<style>
+    .dashboard-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .chart-card {
+        flex: 1;
+        min-width: 400px;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #eee;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+    .chart-card h3 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: #333;
+        font-weight: 600;
+        text-align: center;
+        border-bottom: 2px solid #79aec8;
+        padding-bottom: 10px;
+    }
+    @media (max-width: 900px) {
+        .chart-card {
+            min-width: 100%;
+        }
+    }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    const primaryColor = 'rgba(121, 174, 200, 0.7)';
+    const secondaryColor = 'rgba(153, 102, 255, 0.7)';
+    const borderColor = 'rgba(121, 174, 200, 1)';
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var chartData = {{ chart_data }};
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [{
+                label: 'Daily Access Volume',
+                data: chartData,
+                backgroundColor: primaryColor,
+                borderColor: borderColor,
+                pointBackgroundColor: borderColor,
+                pointRadius: 4,
+                fill: true,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    time: {
+                        unit: 'day',
+                        displayFormats: {
+                            day: 'MMM D'
+                        }
+                    },
+                    gridLines: {
+                        display: false
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        precision: 0
+                    },
+                    gridLines: {
+                        color: 'rgba(0,0,0,0.05)'
+                    }
+                }]
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+                backgroundColor: 'rgba(0,0,0,0.8)',
+                titleFontSize: 14,
+                bodyFontSize: 13
+            }
+        }
+    });
+
+    var ctx2 = document.getElementById('pathChart').getContext('2d');
+    var pathData = {{ paths_data }};
+    var pathChart = new Chart(ctx2, {
+        type: 'horizontalBar',
+        data: {
+            labels: pathData.map(d => d.label),
+            datasets: [{
+                label: 'Hits',
+                data: pathData.map(d => d.data),
+                backgroundColor: [
+                    '#79aec8', '#417690', '#f5dd5d', '#d65151', '#609b41',
+                    '#e88f3a', '#aed581', '#4db6ac', '#9575cd', '#f06292'
+                ].slice(0, pathData.length),
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        precision: 0
+                    },
+                    gridLines: {
+                        display: false
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                }]
+            }
+        }
+    });
+    var ctx3 = document.getElementById('nameMessageChart').getContext('2d');
+    var nameMessageData = {{ name_message_data }};
+    var nameMessageChart = new Chart(ctx3, {
+        type: 'horizontalBar',
+        data: {
+            labels: nameMessageData.map(d => d.label),
+            datasets: [{
+                label: 'Hits',
+                data: nameMessageData.map(d => d.data),
+                backgroundColor: [
+                    '#e88f3a', '#9575cd', '#4db6ac', '#f06292', '#79aec8',
+                    '#417690', '#f5dd5d', '#d65151', '#609b41', '#aed581'
+                ].slice(0, nameMessageData.length),
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    ticks: {
+                        beginAtZero: true,
+                        precision: 0
+                    },
+                    gridLines: {
+                        display: false
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        display: false
+                    }
+                }]
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="chart-card">
+        <h3>Traffic Overview</h3>
+        <div style="height: 300px;">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+    <div class="chart-card">
+        <h3>Top Content Performance</h3>
+        <div style="height: 300px;">
+            <canvas id="pathChart"></canvas>
+        </div>
+    </div>
+    <div class="chart-card">
+        <h3>Name & Nachricht Breakdown</h3>
+        <div style="height: 300px;">
+            <canvas id="nameMessageChart"></canvas>
+        </div>
+    </div>
+</div>
+{{ block.super }}
+{% endblock %}

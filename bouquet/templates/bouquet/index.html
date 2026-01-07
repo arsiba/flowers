@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Gift for You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'bouquet/css/style.css' %}">
+</head>
+<body>
+    <div id="prelude" class="prelude">
+        <h1 class="prelude-text">{{ name }}</h1>
+        <p class="prelude-subtext">Tap or click anywhere</p>
+    </div>
+
+    <div id="message-container" class="message-container">
+        <h2 id="flower-message">{{ message }}</h2>
+    </div>
+
+    <canvas id="bouquetCanvas"></canvas>
+
+    <script src="{% static 'bouquet/js/animation.js' %}"></script>
+</body>
+</html>
