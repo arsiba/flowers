@@ -30,15 +30,17 @@ The application provides a flexible way to personalize the bouquet page using ei
 |-----------|-------------|------------------------------------------------------|
 | `name`    | The recipient's name | `?name=Alice` or `/Alice/`                           |
 | `message` | A custom message to display | `?message=Have a lovely day` or `/Alice/Have a lovely day/` |
+| `sender`  | The sender's name | `?sender=Bob` or `/Alice/Have a lovely day/Bob/` |
 
 ### URL Patterns
 
 1. **Query Parameters (Recommended for sharing)**
-   `http://localhost:8000/?name=Jane&message=Thinking%20of%20you`
+   `http://localhost:8000/?name=Jane&message=Thinking%20of%20you&sender=Bob` (Result: "Thinking of you/Bob")
 
 2. **Path Parameters**
    - Name only: `http://localhost:8000/Jane/`
    - Name and Message: `http://localhost:8000/Jane/Thinking%20of%20you/`
+   - Name, Message and Sender: `http://localhost:8000/Jane/Thinking%20of%20you/Bob/` (Result: "Thinking of you/Bob")
 
 ## Configuration
 
